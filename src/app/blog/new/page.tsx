@@ -1,10 +1,10 @@
 'use client'
 
-import { Editor, EditorTextChangeEvent } from 'primereact/editor';
+import { Editor } from 'primereact/editor';
 import { Button } from 'primereact/button';
 
 
-import htmlParser from '@/lib/htmlparser'
+
 import { FormEvent, useState } from 'react';
 import View from '../View/View';
 import iPostBlog from '@/types/iPostBlog';
@@ -34,10 +34,10 @@ if (state=='edit') {
 
   if (cat.length>3 && tittle.length>3 && htmlcontent.length >10 && autor.length > 3) 
     {
-      !validate?setValidate(true):{}
+      if(!validate)setValidate(true)
     }
     else {
-      validate?setValidate(false):{}
+      if(validate)setValidate(false)
     }
 
 

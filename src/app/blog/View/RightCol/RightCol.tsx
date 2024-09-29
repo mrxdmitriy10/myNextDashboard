@@ -3,8 +3,10 @@
 
 import Like from "./Like"
 
-import ButtonNewPost, { stateUploadType } from "./ButtonNewPost"
+import ButtonNewPost  from "./ButtonNewPost"
+
 import { Dispatch, SetStateAction } from "react"
+import TloadingState from "@/types/Tloading"
 
 export type Props = {
     postInfo: {
@@ -13,7 +15,7 @@ export type Props = {
     },
     newpost: {
         isNewPost: boolean,
-        clickPublish: (func: stateUploadType) => void
+        clickPublish: (func: Dispatch<SetStateAction<TloadingState>>) => void
         clickBackWrite: () => void
 
     }

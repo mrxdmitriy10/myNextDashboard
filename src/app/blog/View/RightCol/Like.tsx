@@ -1,6 +1,6 @@
 'use client'
 
-import React, { MouseEvent, MouseEventHandler } from "react";
+
 
 interface Props {
     active: boolean
@@ -9,7 +9,7 @@ interface Props {
 const Like:React.FC<Props> = ({active}) => {
 
 
-    const onClick = (e:MouseEvent<HTMLDivElement>):void=> {
+    const onClick = ():void=> {
 
         
     }

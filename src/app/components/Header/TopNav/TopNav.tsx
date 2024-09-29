@@ -6,11 +6,8 @@ import styles from './styles.module.scss'
 import { PurpleButton } from './Button/PurpleButton';
 
 
-interface PropsType {
 
-}
-
-export const TopNav: React.FC<PropsType> = () => {
+export const TopNav: React.FC = () => {
 
    
     return ( 

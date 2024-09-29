@@ -2,27 +2,30 @@
 
 
 import { Props } from '@/app/blog/View/RightCol/RightCol'
-import axios from 'axios'
-import router from 'next/router'
+import TloadingState from '@/types/Tloading'
+
 import { Dispatch, SetStateAction, useState } from 'react'
-export type stateUploadType = Dispatch<SetStateAction<null | 'load' | 'error' | 'finish'>> 
+
+
+
+export type stateUploadType = Dispatch<SetStateAction<TloadingState>>
 type PropsType = {
     newpost: Props['newpost']
 }
 const ButtonNewPost:React.FC<PropsType> =  ({newpost}) => {
-    const [uploadingPost, setUploadingPost] = useState<null | 'load' | 'error' | 'finish'>(null)
+    const [loadingState, setLoadingState] = useState<TloadingState>()
 
 
     return !newpost.isNewPost ? <></>:( 
         <>
-        <button onClick={()=>newpost.clickPublish(setUploadingPost)} type="button" className="w-full text-white transition-all bg-teal-500 hover:bg-teal-900 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+        <button onClick={()=>newpost.clickPublish(setLoadingState)} disabled={((loadingState == 'load' || loadingState == 'finish' )?true:false)} type="button" className="w-full text-white transition-all bg-teal-500 hover:bg-teal-900 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
 
 
             {
 
-                uploadingPost=='load'?<>Загрузка</>:
-                uploadingPost=='error'?<>Ошибка</>:
-                uploadingPost=='finish'?<>Опубликовано</>:<>Опубликовать</>
+                loadingState=='load'?<>Загрузка</>:
+                loadingState=='error'?<>Ошибка</>:
+                loadingState=='finish'?<>Опубликовано</>:<>Опубликовать</>
 
 
             }

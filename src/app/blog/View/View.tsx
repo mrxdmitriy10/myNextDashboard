@@ -1,44 +1,23 @@
 'use client'
 
 import htmlParser from "@/lib/htmlparser";
-import styles from '@/app/blog/View/styles.module.scss'
 
-import Like from "./RightCol/Like";
+
+
 import RightCol from "./RightCol/RightCol";
 import axios from "axios";
 
 import iPostBlog from "@/types/iPostBlog";
 import { Dispatch, SetStateAction } from "react";
-import { redirect } from "next/navigation";
-import router from "next/router";
+
+
 import { stateUploadType } from "./RightCol/ButtonNewPost";
+import { CommentsBlock } from "./Comments/CommentsBlock";
 
 
 
 
-const css = `
-  .p-hidden-accessible {
-    border: 0;
-    padding: 0;
-    margin: -1px;
-    position: absolute;
-    height: 1px;
-    width: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    clip-path: inset(50%);
-    white-space: nowrap;
-}
 
-.p-hidden-accessible input,
-.p-hidden-accessible select {
-    transform: scale(0);
-}
-
-.p-overflow-hidden {
-    overflow: hidden;
-    padding-right: var(--scrollbar-width);
-`
 
 type Props = {
     post: iPostBlog
@@ -65,7 +44,8 @@ const View:React.FC<Props> = ({post, isNewPost, setStateEditPreview}) => {
 
 
     const clickBackWrite = async () => {
-      setStateEditPreview?setStateEditPreview('edit'):{}
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      setStateEditPreview?setStateEditPreview('edit'):true
   }
 
     return ( 
@@ -90,6 +70,7 @@ const View:React.FC<Props> = ({post, isNewPost, setStateEditPreview}) => {
         <div className="col-span-2 ">
         <RightCol postInfo={{date: post.date, autor: post.autor}} newpost={{isNewPost: isNewPost, clickPublish: clickPublish, clickBackWrite: clickBackWrite}} />
         </div>
+        <div className="col-span-8 border p-8 grid gap-7">{!isNewPost?<CommentsBlock post_id={post.id} />:<></>}</div>
 
         </main>
     );

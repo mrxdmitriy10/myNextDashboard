@@ -33,4 +33,17 @@ model BlogPosts {
   content  String
   autor    String
   date     DateTime @default(now())
+
+  BlogComments BlogComments[]
+}
+
+model BlogComments {
+  id       Int   @id @unique @default(autoincrement())
+  autor      String
+  comment   String
+  post_id   Int
+  date DateTime @default(now())
+  r_post_id BlogPosts @relation(fields: [post_id], references: [id])
+
+
 }

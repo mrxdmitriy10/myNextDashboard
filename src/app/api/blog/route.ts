@@ -1,8 +1,8 @@
 import iPostBlog  from '@/types/iPostBlog';
 
 import  prisma  from '@/lib/prisma';
-import { NextRequest, NextResponse } from "next/server"
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse } from "next/server"
+
 
 
 const delay = (ms: number) => {
@@ -13,7 +13,7 @@ const delay = (ms: number) => {
 
 export async function GET() {
     try {
-        const res = await prisma.blogPosts.findMany()
+        const res = await prisma.blogPosts.findMany({orderBy: { id: 'desc' }})
         return NextResponse.json(res);
     } catch (error) {
         console.error('Error fetching blog_posts:', error);

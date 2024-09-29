@@ -1,22 +1,21 @@
 
 'use client'
 
-import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
-import iFocus from "@/types/iFocus";
+import {  useEffect, useState } from "react";
+
 import iTask from "@/types/iTasks";
 import NextPrevbtn from "./NextPrevBtn";
 import axios from "axios";
 import Input from "./Input";
 import { iOnsubmit } from "@/types/iEvent";
-import deleteSvg  from '../public/delete.svg'; // Путь к вашему SVG-файлу
+import Image from "next/image";
 
 
 
 
 
-interface action extends iFocus {
-    del: (id: string) => void
-}
+
+
 
 type propTypes = {
     tittle: string,
@@ -34,8 +33,8 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
     const [visibleprv, setVisibleprv] = useState<boolean>(true)
 
     const [i, setI] = useState<number>(1)
-    const [visiblebtn, setVisiblebtn] = useState<boolean>(false)
-    const [border, setBorder] = useState<string>(" shadow-xl")
+    const [visiblebtn] = useState<boolean>(false)
+    const [border] = useState<string>(" shadow-xl")
     const [data, setData] = useState<iTask[]>([])
     const [loading, setLoading] = useState<boolean>(true)
 
@@ -45,7 +44,7 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
 
     const delTaskID = async () => {
         try {
-            const res = await axios.delete(`api/tasks/${selectTaskId}`)
+            await axios.delete(`api/tasks/${selectTaskId}`)
         }  catch (error) {
             console.log(`Ошибка удаления задачи ${selectTaskId} `, error);
         } finally {
@@ -70,7 +69,7 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
     }
     useEffect(() => {
         getData()
-    }, [])
+    })
 
     const nextHandleEvent = () => {
         if ((i) < pages) {
@@ -114,7 +113,7 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
         setMousePos({x: e.currentTarget.offsetLeft+e.currentTarget.offsetWidth/2, y: e.currentTarget.offsetTop-10})
     }
 
-    const onMouseUp = (e:React.MouseEvent<HTMLDivElement>) => {
+    const onMouseUp = () => {
         setSelectTaskId(undefined)
 
     }
@@ -152,7 +151,7 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
                 <NextPrevbtn visible={data.length ? visiblebtn : false} visiblenxt={visiblenxt} visibleprv={visibleprv} prevHandleEvent={prevHandleEvent} nextHandleEvent={nextHandleEvent} />
                 
                 <Input submit={addTasktocat} />
-                {selectTaskId?<img src={'delete.svg'} onMouseUp={delTaskID} className="w-10 h-10 absolute" style={{top: mousepos.y-20, left: mousepos.x+30}} />:<></>}
+                {selectTaskId?<Image alt='' src={'delete.svg'} onMouseUp={delTaskID} className="w-10 h-10 absolute" style={{top: mousepos.y-20, left: mousepos.x+30}} />:<></>}
             </div>
 
         </div>

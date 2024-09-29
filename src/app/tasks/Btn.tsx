@@ -1,11 +1,8 @@
 
 import iNxtPrv from "../../types/iNxtPrv";
 
-interface propsType extends iNxtPrv {
 
-}
-
-export const Btn:React.FC<propsType> = ({visiblenxt, visibleprv, nextHandleEvent, prevHandleEvent}) => {
+export const Btn:React.FC<iNxtPrv> = ({visiblenxt, visibleprv, nextHandleEvent, prevHandleEvent}) => {
 
 
 

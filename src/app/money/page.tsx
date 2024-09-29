@@ -41,9 +41,18 @@ const Page:React.FC = () => {
   }
 
   const delMoneyItem = (e:idelMoneyItem) =>{ 
-    e.preventDefault();
-    axios.get("http://localhost:5000/delitem/"+e.currentTarget.id)
-      .then((res) => setMoneyitems(res.data)),[]
+    const fetch = async ()=> {
+        e.preventDefault();
+
+        try {
+            const res = await axios.get("http://localhost:5000/delitem/"+e.currentTarget.id)
+            setMoneyitems(await res.data)
+        } catch  {
+            return
+        }
+    }
+    fetch()
+
   }
 
 

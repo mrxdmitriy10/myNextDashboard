@@ -1,11 +1,11 @@
 
 import React from 'react';
 import View from '../View/View';
-import { NextApiResponse } from 'next';
+
 import { notFound } from 'next/navigation';
 import iPostBlog from '@/types/iPostBlog';
 import axios from 'axios';
-import { env } from 'process';
+
 
 
 // export const dynamic = 'auto'

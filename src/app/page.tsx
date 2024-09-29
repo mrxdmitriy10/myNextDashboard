@@ -1,7 +1,7 @@
 
-interface Props {}
 
-const Page: React.FC<Props> = ({}) => {
+
+const Page: React.FC = ({}) => {
  
 
 

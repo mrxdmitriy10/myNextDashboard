@@ -1,35 +1,25 @@
 'use client'
 
-import iFocus from "@/types/iFocus";
 
-import iTask from "@/types/iTasks";
-import { Input } from "@/app/tasks/Input";
+
+
+
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { iOnsubmit } from "@/types/iEvent";
+
 import { Tasks } from "./Tasks";
-import { DidBuy } from "../DidBuy";
-import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
-import { usePathname } from 'next/navigation'
-
-
-interface propsType {
-
-
-  //focus: iFocus,
-  //onSubmit: iSubmit
-}
 
 
 
 
 
-const Page: React.FC<propsType> = () => {
+
+
+
+const Page: React.FC = () => {
   const [cats, setCats] = useState<[{ name: string }] | []>([])
-  const [focusTask, setFocusTask] = useState<iFocus['id']>(null)
-  const [tasks, setTasks] = useState<Record<string, iTask[]> | null>(null);
+
   const [loading, setLoading] = useState(true);
 
 
@@ -62,7 +52,7 @@ const Page: React.FC<propsType> = () => {
 
       <div className="flex flex-wrap sm:flex-nowrap gap-10 flex-cols-3 my-10">
         {
-          loading?<>Загрузка категорий</>:!cats.length?<>Категорий задач нет. Создайте</>:cats.map((i, index) => {
+          loading?<>Загрузка категорий</>:!cats.length?<>Категорий задач нет. Создайте</>:cats.map((i) => {
 
 
             return (

@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 
-import { usePathname } from 'next/navigation';
+
 import axios from 'axios';
 
 
@@ -29,7 +29,7 @@ const Page:React.FC = ({}):JSX.Element => {
 
     const fetchallposts = async () => {
       try {
-        const res = await axios.get('/api/blog')
+        const res:{data:iPostBlog[]} = await axios.get('/api/blog')
         console.log(res.data);
         
         setPosts_Blog(res.data)
@@ -76,7 +76,7 @@ const Page:React.FC = ({}):JSX.Element => {
 
             <div className="flex mt-5 flex-wrap justify-end items-center">
                 {
-                    Loading ? <>Загрузка постов</> : !posts_blog.length?<>Блог пуст</>:posts_blog.map((i, index)=>{
+                    Loading ? <>Загрузка постов</> : !posts_blog.length?<>Блог пуст</>:posts_blog.map((i)=>{
                       return <Card key={i.id} id={i.id} autor={i.autor} tittle={i.tittle} 
                                     date={i.date} content={i.content} category={i.category} 
                                     img={i.img} 

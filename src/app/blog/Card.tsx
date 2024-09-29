@@ -5,7 +5,6 @@ import React, { Dispatch, MouseEvent, SetStateAction, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import iDelBlog from "@/types/idelBlog";
 import iPostBlog from "@/types/iPostBlog";
 
 interface Props extends iPostBlog {

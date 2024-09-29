@@ -22,7 +22,7 @@ export async function PUT(request: Request, { params }: { params: { slug: string
     const { text_task }: { text_task: string } = await request.json()
     if (!text_task) return NextResponse.json({ error: 'The data is empty' }, { status: 400 })
     try {
-        const res = await prisma.tasks.create({ data: { category: params.slug, text: text_task } })
+        await prisma.tasks.create({ data: { category: params.slug, text: text_task } })
         return GET(request, { params })
     } catch (error) {
         console.error('Error put tasks:', error);

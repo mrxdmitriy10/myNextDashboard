@@ -1,27 +1,17 @@
 'use client'
 
 
-
-
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import { Tasks } from "./Tasks";
 
-
-
-
-
-
-
-
 const Page: React.FC = () => {
+
+
+
   const [cats, setCats] = useState<[{ name: string }] | []>([])
-
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
 
@@ -45,18 +35,17 @@ const Page: React.FC = () => {
 
 
 
+  
 
 
   return (
-    <div className='text-center text-sm mt-10 lg:mx-1'>
+    <div className='text-center text-sm mt-10 lg:mx-1 -mx-0 sm:-mx-5 md:-mx-0'>
 
-      <div className="flex flex-wrap sm:flex-nowrap gap-10 flex-cols-3 my-10">
+      <div className="flex flex-wrap sm:flex-nowrap gap-10 sm:gap-3 md:gap-5 xl:gap-10 flex-cols-3 my-10 justify-center">
         {
           loading?<>Загрузка категорий</>:!cats.length?<>Категорий задач нет. Создайте</>:cats.map((i) => {
-
-
             return (
-              <Tasks key={i.name} maxrow={25} tittle={i.name} />
+              <Tasks key={i.name} maxrow={100} tittle={i.name} />
             )
           })
         }
@@ -69,4 +58,8 @@ const Page: React.FC = () => {
     </div>
   )
 }
+
+
+
+
 export default Page

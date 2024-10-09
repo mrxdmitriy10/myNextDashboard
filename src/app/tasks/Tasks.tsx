@@ -42,7 +42,7 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
     const [mousepos, setMousePos] = useState<{x: number, y: number}>({x:0,y:0})
 
 
-    const delTaskID = async () => {
+    const delTaskId = async () => {
         try {
             await axios.delete(`api/tasks/${selectTaskId}`)
         }  catch (error) {
@@ -69,7 +69,8 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
     }
     useEffect(() => {
         getData()
-    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
     const nextHandleEvent = () => {
         if ((i) < pages) {
@@ -117,17 +118,15 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
         setSelectTaskId(undefined)
 
     }
-
-    console.log(selectTaskId);
     
 
 
     return (
-        <div onMouseUp={onMouseUp} className={'sm:min-h-96 w-full select-none bg-white rounded-lg shadow-xl p-5 flex flex-col gap-10' + border}>
+        <div onMouseUp={onMouseUp} className={'sm:min-h-96 w-full select-none bg-white rounded-lg shadow-xl p-3 flex flex-col gap-10 xl:max-w-96' + border}>
 
 
             <div className="text-xl font-mono text-purple-950">{tittle}</div>
-            <div className="flex flex-row flex-wrap justify-center gap-5">
+            <div className="flex flex-row flex-wrap justify-center gap-1">
                 {loading ? <>Загружаем задачи</> : !data.length?<>тут задач нет</>:data.slice(((i - 1) * maxrow)).map((i, index) => {
                     if (index < maxrow) {
                         return (
@@ -151,7 +150,8 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
                 <NextPrevbtn visible={data.length ? visiblebtn : false} visiblenxt={visiblenxt} visibleprv={visibleprv} prevHandleEvent={prevHandleEvent} nextHandleEvent={nextHandleEvent} />
                 
                 <Input submit={addTasktocat} />
-                {selectTaskId?<Image alt='' src={'delete.svg'} onMouseUp={delTaskID} className="w-10 h-10 absolute" style={{top: mousepos.y-20, left: mousepos.x+30}} />:<></>}
+
+                {selectTaskId&&<Image alt='' src={'delete.svg'} onMouseUp={delTaskId} width={2.5} height={2.5} className="w-10 h-10 absolute" style={{top: mousepos.y-20, left: mousepos.x+30}} />}
             </div>
 
         </div>

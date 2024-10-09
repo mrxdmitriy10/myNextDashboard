@@ -1,6 +1,6 @@
 import iPostBlog  from '@/types/iPostBlog';
 
-import  prisma  from '@/lib/prisma';
+import  prisma  from '@/prisma';
 import { NextResponse } from "next/server"
 
 

@@ -1,7 +1,7 @@
 
 'use client'
 
-import { DidBuy } from "../DidBuy";
+import { DidBuy } from "./DidBuy";
 
 import { ibuyMoney, idelMoneyItem } from "@/types/iEvent";
 import ItemMoney from "./Item";

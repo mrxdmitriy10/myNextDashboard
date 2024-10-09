@@ -7,6 +7,7 @@ import ButtonNewPost  from "./ButtonNewPost"
 
 import { Dispatch, SetStateAction } from "react"
 import TloadingState from "@/types/Tloading"
+import date_time from "@/lib/formatDate"
 
 export type Props = {
     postInfo: {
@@ -27,7 +28,7 @@ const RightCol:React.FC<Props> = ({postInfo, newpost}) => {
         <div className='gap-5 text-right flex-1'>
             <ButtonNewPost newpost={newpost} />
             <div>{postInfo.autor}</div>
-            <div>{postInfo.date}</div>
+            {postInfo.date?(<div>{date_time(postInfo.date as string).date}</div>):<></>}
             <Like active={!newpost.isNewPost}/>
 
         </div>

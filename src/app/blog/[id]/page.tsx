@@ -5,6 +5,7 @@ import View from '../View/View';
 import { notFound } from 'next/navigation';
 import iPostBlog from '@/types/iPostBlog';
 import axios from 'axios';
+import { Metadata } from 'next';
 
 
 
@@ -13,24 +14,30 @@ import axios from 'axios';
  export const dynamicParams = false
 
 
+async function fetchPost(id: string) {
+  const res = await fetch(`${process.env.API_BASE_URL}/api/blog/${id}`, { cache: 'force-cache' })
+  return res.json()
+}
 
-// export async function generateStaticParams() {
-  //  const res = await fetch('http://localhost:5000/blog')
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
 
-  // let posts: iPostBlog[] = await res.json() as iPostBlog[]
-  //  return posts.map((post) => ({id: post.id}.toString()))
-    
-//  
+  const post = await fetchPost(params.id);
+  if (!post) {
+    return { title: 'Статья не найдена', description: 'Не удалось найти эту статью.' }; // Если статья не найдена, возвращаем стандартные метаданные
+  }
 
+  return {
+    title: post.tittle, // Заголовок статьи
+    description: post.tittle, // Описание статьи
+  };
+}
 
 export default async function Page({ params }: { params: {id: string} }) {
 
-    
   try {
 
-    
-    const res = await axios.get<iPostBlog>(`${process.env.API_BASE_URL}/api/blog/${params.id}`)
-    const post = res.data
+    const post = await fetchPost(params.id);
+
     if (!post) return notFound()
     return (
        <View post={post} isNewPost={false}/>    
@@ -40,4 +47,3 @@ export default async function Page({ params }: { params: {id: string} }) {
       return notFound();
     }
 }
-

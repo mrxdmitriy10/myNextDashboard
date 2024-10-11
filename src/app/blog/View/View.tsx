@@ -35,7 +35,6 @@ const View:React.FC<Props> = ({post, isNewPost, setStateEditPreview}) => {
         try {
           func('load')
           const res = await axios.post('/api/blog/', post)
-          console.log('res ', res.data);
         } catch (error) 
         {
           func('error')

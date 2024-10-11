@@ -33,7 +33,8 @@ export const CommentsBlock = ({session ,post_id}: Props) => {
             const res: {data: comment[]} = await axios.get(`/api/blog/${post_id}/comments`)
             setData(res.data)
         } catch (error) {
-            console.log(error);
+            console.log('Ошибка при загрузке коммента');
+            
         } finally {
             setLoading(false)
         }

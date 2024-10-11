@@ -41,7 +41,7 @@ const Page:React.FC = ({}):JSX.Element => {
 
         try {
             const res = await axios.delete(`/api/blog/${id}`)
-            console.log(res.data);
+
           }
           catch (error) {
             console.error(`Ошибка при удалении поста: ${id}`, error); // Обработка ошибок

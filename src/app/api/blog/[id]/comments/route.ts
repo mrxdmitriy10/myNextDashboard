@@ -11,7 +11,7 @@ export async function GET(request: Request, { params }: { params: {id: string} }
 
     try {
         const res = await prisma.blogComments.findMany({ where: { post_id: Number(params.id) }, orderBy: { id: 'desc' }});
-        console.log(res); 
+
         
         return NextResponse.json(res);
     } catch (error) {

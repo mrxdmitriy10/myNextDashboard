@@ -1,33 +1,43 @@
-
-import { signIn } from '@/auth';
-
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// import { SHA256 as sha256 } from "crypto-js";
-// import prisma client
-
-import { objectToAuthDataMap, AuthDataValidator, urlStrToAuthDataMap } from "@telegram-auth/server";
-
+// We impot our prisma client
+import { hashPassword } from "@/lib/hashPassword";
+import prisma from "@/prisma";
+// Prisma will help handle and catch errors
+import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
 
+export async function POST(req:NextApiRequest, res:NextApiResponse) {
 
-export async function GET(req: any, res: NextApiResponse) {
-  try {
-      const validator = new AuthDataValidator({
-        botToken: `${process.env.BOT_TOKEN}`,})
+    let errors = [];
 
-      const data = urlStrToAuthDataMap(req.url || {});
+    
+    return res.status(201).json({message: 'aaa'});
+  
+    try {
+      const user = await prisma.user.create({
+        data: { ...req.body, password: hashPassword(req.body.password) },
+      });
+      return res.status(201).json({ user });
+    } catch (e:any) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === "P2002") {
+          return res.status(400).json({ message: e.message });
+        }
+        return res.status(400).json({ message: e.message });
+      }
       
-      const res = await signIn("credentials", {
-                redirect: false,
-                ...data, // передаем данные от Telegram
-              });
+      else {
 
-      return NextResponse.json({})
-  } catch (error) {
-      console.error('Error auth:', error);
-      return NextResponse.json({ error: 'Error auth' }, { status: 500 });
-  }
+        return res.status(400).json({message: `Error create or update: ${e}`})}
 
+    }
 }
+
+
+
+// We hash the user entered password using crypto.js
+
+// function to create user in our database
+
+ 

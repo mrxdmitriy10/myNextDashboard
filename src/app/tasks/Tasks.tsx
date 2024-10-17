@@ -27,7 +27,7 @@ type propTypes = {
 
 
 
-export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
+const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
 
     const [visiblenxt, setVisiblenxt] = useState<boolean>(true)
     const [visibleprv, setVisibleprv] = useState<boolean>(true)
@@ -158,3 +158,5 @@ export const Tasks: React.FC<propTypes> = ({ tittle, maxrow }) => {
 
     );
 }
+
+export default Tasks

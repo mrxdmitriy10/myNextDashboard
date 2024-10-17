@@ -1,10 +1,12 @@
+import { redirect } from "next/navigation"
+
 
 
 
 const Page: React.FC = ({}) => {
  
 
-
+  redirect('/blog')
 
   return (
    <div>

@@ -1,5 +1,6 @@
 
-import Login from '../Login/Login';
+
+import Login from '@/app/components/Header/Login/Login';
 import styles from './styles.module.scss'
 import { TopNav } from './TopNav/TopNav';
 

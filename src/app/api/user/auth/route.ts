@@ -7,31 +7,33 @@ import prisma from "@/prisma";
 import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export async function POST(req:NextApiRequest, res:NextApiResponse) {
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
 
-    let errors = [];
+  // let errors = [];
+  console.log(req.body);
 
-    
-    return res.status(201).json({message: 'aaa'});
-  
-    try {
-      const user = await prisma.user.create({
-        data: { ...req.body, password: hashPassword(req.body.password) },
-      });
-      return res.status(201).json({ user });
-    } catch (e:any) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === "P2002") {
-          return res.status(400).json({ message: e.message });
-        }
+
+  return res.status(201).json({ message: 'aaa' });
+
+  try {
+    const user = await prisma.user.create({
+      data: { ...req.body, password: hashPassword(req.body.password) },
+    });
+    return res.status(201).json({ user });
+  } catch (e: any) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
         return res.status(400).json({ message: e.message });
       }
-      
-      else {
-
-        return res.status(400).json({message: `Error create or update: ${e}`})}
-
+      return res.status(400).json({ message: e.message });
     }
+
+    else {
+
+      return res.status(400).json({ message: `Error create or update: ${e}` })
+    }
+
+  }
 }
 
 
@@ -40,4 +42,3 @@ export async function POST(req:NextApiRequest, res:NextApiResponse) {
 
 // function to create user in our database
 
- 

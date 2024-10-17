@@ -20,6 +20,8 @@ const Login = ({children}:{children: React.ReactNode}) => {
 
 
   const session = useSession()
+  console.log(session);
+  
   return (
     <>
 

@@ -19,8 +19,8 @@ const Page: React.FC = () => {
   const [selectcategory, setselectCategory] = useState<selectcategorytype>(null);
 
   const session = useSession();
-  const delStore = usedelStore();
-  const postsStore = usepostsStore();
+  const delStore = usedelStore((state)=>state);
+  const postsStore = usepostsStore((state)=>state);
 
   const fetchallposts = async () => {
     try {
@@ -67,7 +67,7 @@ const Page: React.FC = () => {
       <div className="flex flex-wrap justify-center 2xl:justify-center ">
         {
           loading ? <>Загрузка постов</> : !postsStore.all.length ? <>Блог пуст</> : postsStore.all.map((i) => {
-            if ((i.category == selectcategory) || !selectcategory)
+            if ((i.category == postsStore.selectCategory) || !postsStore.selectCategory)
               return <Card key={i.id} id={i.id} autor={i.autor} tittle={i.tittle}
                 date={i.date} content={i.content} category={i.category}
                 img={i.img}

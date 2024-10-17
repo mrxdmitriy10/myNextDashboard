@@ -22,7 +22,7 @@ export const  ModalDelete: React.FC<Props> = ({fetchallposts}) => {
   
 
 
-  const delStore = usedelStore()
+  const delStore = usedelStore((state) => state)
 
   const delPost= async (id:number) =>{
     try {

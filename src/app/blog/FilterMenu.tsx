@@ -7,7 +7,7 @@ type PropsType = {
 };
 
 const FilterMenu: React.FC<PropsType> = ({ data }) => {
-    const postsStore = usepostsStore();
+    const postsStore = usepostsStore((state)=>state);
 
   return (
     <Menu as="div" className="relative inline-block text-left select-none">

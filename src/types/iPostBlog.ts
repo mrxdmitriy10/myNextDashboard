@@ -1,8 +1,8 @@
 
 type iPostBlog = {
     id?: number
-    img: string | null
-    tittle: string,
+    img?: string | null
+    title: string,
     category: string,
     content: string,
     autor: string,

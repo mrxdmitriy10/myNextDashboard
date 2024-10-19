@@ -3,12 +3,9 @@ import React from 'react';
 import View from '../View/View';
 
 import { notFound } from 'next/navigation';
-import iPostBlog from '@/types/iPostBlog';
-import axios from 'axios';
+
+
 import { Metadata } from 'next';
-
-
-
 
  export const dynamic = 'auto'
  export const dynamicParams = false

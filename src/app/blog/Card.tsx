@@ -9,10 +9,10 @@ import ClampLines from "react-clamp-lines";
 import htmlParser from "@/lib/htmlparser";
 import { usedelStore } from "@/store/blog/blog.store";
 
-export const Card: React.FC<iPostBlog> = (props): JSX.Element => {
-  //   const onMouseEnter = () => {
-  //     setActive(true);
-  //   };
+type Props = {
+  post: iPostBlog;
+};
+export const Card: React.FC<Props> = ({ post }): JSX.Element => {
   const delStore = usedelStore();
 
   const delPost = async (id: number) => {
@@ -21,21 +21,21 @@ export const Card: React.FC<iPostBlog> = (props): JSX.Element => {
   };
 
   const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    if (!props.id) return;
+    if (!post.id) return;
     if (delStore.delState) {
       e.preventDefault();
-      delPost(props.id);
+      delPost(post.id);
       delStore.setdelState(false);
     }
   };
 
   return (
     <div
-      className={`group bg-white border m-3 p-4 2xl:px-14 2xl:pr-48 pr-32 lg:pr-10 text-xm 
+      className={`group bg-white border p-4 2xl:px-14 2xl:pr-48 pr-32 lg:pr-10 text-xm 
         hover:drop-shadow-lg bg-clip-border rounded-xl drop-shadow-2xl text-gray-700 
         transition-all ${delStore.delState && "hover:text-red-500"}`}
     >
-      <Link onClick={onClick} href={"/blog/" + props.id}>
+      <Link onClick={onClick} href={"/blog/" + post.id}>
         {/* <PostImg /> */}
 
         <div
@@ -49,7 +49,7 @@ export const Card: React.FC<iPostBlog> = (props): JSX.Element => {
                             font-light text-inherit mb-2 
                             "
             >
-              [{props.category}] [{props.id}]
+              [{post.category}] [{post.id}]
             </p>
           </div>
 
@@ -60,22 +60,23 @@ export const Card: React.FC<iPostBlog> = (props): JSX.Element => {
                                         normal-case transition-colors 
                                         "
           >
-            {props.tittle}
+            {post.title}
           </span>
 
           <ClampLines
-            className="
+            className="     
                             antialiased
                             whitespace-normal
                             inline-block
-                            w-full
+                            w-3/4
+
                             font-sans text-sm 
                             !text-gray-600"
             lines={3}
             ellipsis="..."
             buttons={false}
             id={"content"}
-            text={htmlParser.parse(props.content.replace(/(<([^>]+)>)/gi, ""))}
+            text={htmlParser.parse(post.content.replace(/(<([^>]+)>)/gi, ""))}
           />
 
           <p

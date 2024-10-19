@@ -1,7 +1,7 @@
 'use client'
 
 
-import { usedelStore } from '@/store/blog/blog.store'
+import { usedelStore, usepostsStore } from '@/store/blog/blog.store'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
@@ -14,15 +14,15 @@ import {shallow} from 'zustand/shallow'
 type Props = {
     // open: { boolean: boolean; set: Dispatch<SetStateAction<Props['open']['boolean']>>; },
     // deleteID: { id: number | null,  set: Dispatch<SetStateAction<Props['deleteID']['id']>> }
-    fetchallposts: ()=>Promise<void>
+
 }
 
 
-export const  ModalDelete: React.FC<Props> = ({fetchallposts}) => {
+export const  ModalDelete: React.FC<Props> = () => {
   
 
-
-  const delStore = usedelStore((state) => state)
+  const postStore = usepostsStore()
+  const delStore = usedelStore()
 
   const delPost= async (id:number) =>{
     try {
@@ -31,7 +31,7 @@ export const  ModalDelete: React.FC<Props> = ({fetchallposts}) => {
       catch (error) {
         console.error(`Ошибка при удалении поста: ${id}`, error); // Обработка ошибок
       } finally {
-        fetchallposts()
+        postStore.fetch()
       }
   }
 

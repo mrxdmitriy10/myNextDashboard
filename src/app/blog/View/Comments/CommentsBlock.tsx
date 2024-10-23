@@ -2,7 +2,7 @@ import date_time from "@/lib/formatDate";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import InputNewComment from "./InputNewComment";
-import UseSessionReturn from "@/types/useSessionReturn";
+
 
 type comment = {
   id: number;
@@ -13,10 +13,9 @@ type comment = {
 
 type Props = {
   post_id: number;
-  session: UseSessionReturn;
 };
 
-export const CommentsBlock = ({ session, post_id }: Props) => {
+export const CommentsBlock = ({ post_id }: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<comment[]>([]);
 
@@ -41,7 +40,6 @@ export const CommentsBlock = ({ session, post_id }: Props) => {
   return (
     <>
       <InputNewComment
-        session={session}
         post_id={post_id}
         fetch_comments={fetch_comments}
       />

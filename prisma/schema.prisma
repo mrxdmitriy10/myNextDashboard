@@ -85,11 +85,12 @@ model Tasks {
 model BlogPosts {
   id           Int            @id @unique @default(autoincrement())
   img          String?
-  tittle       String
+  title       String
   category     String
   content      String
   autor        String
   date         DateTime       @default(now())
+  likes        Int            @default(0)
   BlogComments BlogComments[]
 }
 

@@ -16,7 +16,7 @@ interface iNewPost extends iPostBlog {
   setAutor: (value: iPostBlog["autor"]) => void;
   setVariant: (variant: variant) => void;
   setValidate: (bool: boolean) => void;
-  getDataToPublishPostForFetch: () => iPostBlog;
+  getDataToPublishPost: () => iPostBlog;
 }
 export const useNewPost = create<iNewPost>()(
   immer((set, get) => ({
@@ -27,7 +27,7 @@ export const useNewPost = create<iNewPost>()(
     variant: variant.Editor,
     validate: false,
 
-    getDataToPublishPostForFetch: () => ({
+    getDataToPublishPost: () => ({
       title: get().title,
       category: get().category,
       content: get().content,
@@ -58,7 +58,7 @@ export const usePublishNewPost = create<publishNewPost>()((set) => ({
       set({ loading: true });
       await axios.post(
         "/api/blog/",
-        useNewPost.getState().getDataToPublishPostForFetch
+        useNewPost.getState().getDataToPublishPost
       );
       set({ finish: true });
     } catch (error: unknown) {

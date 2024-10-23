@@ -1,33 +1,53 @@
 "use client";
 
-import Like from "./Like";
-
 import ButtonNewPost from "./ButtonNewPost";
 
-
-
 import date_time from "@/lib/formatDate";
+import { LikeComponent } from "./LikeComponent";
+import { usepostsStore, usesinglePost } from "@/store/blog/blog.store";
+import Link from "next/link";
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
 
 export type Props = {
-  postInfo: {
-    date?: string;
-    autor: string;
-  };
-
+  autor?: string;
   isNewPost: boolean;
 };
 
-const RightCol: React.FC<Props> = ({ isNewPost, postInfo }) => {
+const RightCol: React.FC<Props> = ({ isNewPost, autor }) => {
+  const postShortData = usesinglePost();
+  const id = Number(useParams().id);
+  useEffect(() => {
+    !isNewPost && postShortData.setShortData(id);
+  }, []);
+
   return (
-    <div className="gap-5 text-right flex-1">
-      <ButtonNewPost/>
-      <div>{postInfo.autor}</div>
-      {postInfo.date ? (
-        <div>{date_time(postInfo.date as string).date}</div>
-      ) : (
-        <></>
+    <div className="gap-10 flex text-right flex-col ">
+      {!isNewPost && <LikeComponent countLikes={postShortData?.likes} />}
+      <div className="flex flex-col gap-1">
+        <div className="underline text-sm font-mono">Автор: </div>
+        <div>
+          {postShortData.autor ? (
+            postShortData.autor.includes("@") ? (
+              <Link
+                className="hover:underline text-blue-500"
+                href={`https://t.me/${postShortData.autor.slice(1)}`}
+              >
+                {postShortData.autor}
+              </Link>
+            ) : (
+              postShortData.autor
+            )
+          ) : (
+            autor
+          )}
+        </div>
+      </div>
+      {postShortData.date && (
+        <div className="text-sm font-semibold">{date_time(postShortData.date as string).date}</div>
       )}
-      <Like active={!isNewPost} />
+
+      {isNewPost && <ButtonNewPost />}
     </div>
   );
 };

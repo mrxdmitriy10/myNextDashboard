@@ -6,11 +6,17 @@ import { Button } from "primereact/button";
 import { FormEvent } from "react";
 import View from "../View/View";
 
-import { useSession } from "next-auth/react";
+
 import { isAdmin } from "@/lib/isAdmin";
 import { variant, useNewPost } from "../../../store/blog/new.store";
+import { useSession } from "next-auth/react";
+
+
+
 
 const Page = () => {
+
+  const session = useSession().data
   const newPostState = useNewPost();
 
   const onSubmitToPreview = (e: FormEvent<HTMLFormElement>) => {
@@ -19,7 +25,6 @@ const Page = () => {
     newPostState.setVariant(variant.Prewiew);
   };
 
-  const session = useSession();
 
   if (!isAdmin(session)) return <>Нет прав</>;
   if (newPostState.variant == variant.Editor) {
@@ -87,6 +92,8 @@ const Page = () => {
   }
 
   return (
+
+    
     newPostState.variant === variant.Prewiew && (
       <View
         post={{
@@ -95,6 +102,7 @@ const Page = () => {
           img: null,
           title: newPostState.title,
           category: newPostState.category,
+
         }}
         isNewPost={true}
       />

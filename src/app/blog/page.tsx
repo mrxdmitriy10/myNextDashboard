@@ -1,28 +1,25 @@
 "use client";
-
-import { useEffect } from "react";
 import Link from "next/link";
 import { Card } from "./Card";
 
 import FilterMenu from "./FilterMenu";
 import { isAdmin } from "@/lib/isAdmin";
-import { useSession } from "next-auth/react";
+
 import { ModalDelete } from "./ModalDelete";
 import { usedelStore, usepostsStore } from "@/store/blog/blog.store";
+import { useSession } from "next-auth/react";
 
-export type selectcategorytype = string | null;
+import { useEffect } from "react";
+
 
 const Page: React.FC = () => {
-  // const [posts_blog, setPosts_Blog] = useState<iPostBlog[]>([]);
 
-  const session = useSession();
+  const session = useSession().data;
   const delStore = usedelStore();
   const postsStore = usepostsStore();
-
   useEffect(() => {
     postsStore.fetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [postsStore]);
 
   const delDuplCat = () => {
     const mapcategories = postsStore.all.map((i) => {
@@ -36,6 +33,12 @@ const Page: React.FC = () => {
 
   return (
     <div className="grid gap-5 lg:px-5">
+      <div className="w-96 font-serif text-gray-400 text-right m-auto mr-0 -mt-20">
+      &quot;Но когда живое существо обретает знание, свет этого знания рассеивает
+        тьму неведения и открывает ему истинную природу вещей, подобно тому как
+        солнце, поднимаясь над горизонтом, озаряет все вокруг.
+        &quot;
+      </div>
       <ModalDelete />
 
       {isAdmin(session) && (
@@ -77,12 +80,7 @@ const Page: React.FC = () => {
               i.category == postsStore.selectCategory ||
               !postsStore.selectCategory
             )
-              return (
-                <Card
-                  key={i.id}
-                  post={i}
-                />
-              );
+              return <Card key={i.id} post={i} />;
           })
         )}
       </div>

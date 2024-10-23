@@ -6,8 +6,9 @@ import Link from "next/link";
 
 import iPostBlog from "@/types/iPostBlog";
 import ClampLines from "react-clamp-lines";
-import htmlParser from "@/lib/htmlparser";
+
 import { usedelStore } from "@/store/blog/blog.store";
+import Image from "next/image";
 
 type Props = {
   post: iPostBlog;
@@ -31,7 +32,7 @@ export const Card: React.FC<Props> = ({ post }): JSX.Element => {
 
   return (
     <div
-      className={`group bg-white border p-4 2xl:px-14 2xl:pr-48 pr-32 lg:pr-10 text-xm 
+      className={`group bg-white border p-4 2xl:px-14 text-xm 
         hover:drop-shadow-lg bg-clip-border rounded-xl drop-shadow-2xl text-gray-700 
         transition-all ${delStore.delState && "hover:text-red-500"}`}
     >
@@ -76,16 +77,21 @@ export const Card: React.FC<Props> = ({ post }): JSX.Element => {
             ellipsis="..."
             buttons={false}
             id={"content"}
-            text={htmlParser.parse(post.content.replace(/(<([^>]+)>)/gi, ""))}
+            text={post.content}
           />
-
-          <p
-            className={
-              "text-blue-600 text-sm antialiased transition-all opacity-0 group-hover:opacity-100"
-            }
-          >
-            Читать продолжение
-          </p>
+          <div className="flex justify-between">
+            <p
+              className={
+                "text-blue-600 text-sm antialiased transition-all opacity-0 group-hover:opacity-100"
+              }
+            >
+              Читать продолжение
+            </p>
+            <span className="flex gap-2 font-light text-sm">
+              <Image alt="like" src="Like_Star.svg" width={15} height={15} />
+              <div> {post.likes}</div>
+            </span>
+          </div>
         </div>
       </Link>
     </div>

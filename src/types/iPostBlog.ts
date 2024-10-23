@@ -6,6 +6,7 @@ type iPostBlog = {
     category: string,
     content: string,
     autor: string,
-    date?: string
+    date?: string | Date
+    likes?: number
 }
 export default iPostBlog

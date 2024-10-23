@@ -18,7 +18,7 @@ declare module "next-auth" {
 		telegram_username?: string | null;
 		telegram_id?: string | null;
 		role: string
-		provider: string
+		provider: string | 'telegram' | 'github'
 
 	}
 }
@@ -115,10 +115,11 @@ export const { handlers, auth, signIn } = NextAuth({
 			session.user.name = token.name
 			session.user.image = token.image
 
-			session.user.provider = token.provider
+			session.user.provider = token.provider as "telegram"
 			session.user.role = token.role
 			session.user.telegram_id = token.telegram_id
 			session.user.telegram_username = token.telegram_username
+
 			return session;
 		}
 	}

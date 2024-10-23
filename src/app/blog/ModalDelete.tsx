@@ -5,20 +5,16 @@ import { usedelStore, usepostsStore } from '@/store/blog/blog.store'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
-import {shallow} from 'zustand/shallow'
 
 
 
 
 
-type Props = {
-    // open: { boolean: boolean; set: Dispatch<SetStateAction<Props['open']['boolean']>>; },
-    // deleteID: { id: number | null,  set: Dispatch<SetStateAction<Props['deleteID']['id']>> }
-
-}
 
 
-export const  ModalDelete: React.FC<Props> = () => {
+
+
+export const  ModalDelete: React.FC = () => {
   
 
   const postStore = usepostsStore()

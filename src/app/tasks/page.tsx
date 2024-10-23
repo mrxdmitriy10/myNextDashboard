@@ -1,7 +1,7 @@
 'use client'
 
 
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Tasks from "./Tasks";
 

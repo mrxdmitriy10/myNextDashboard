@@ -7,8 +7,12 @@ import { TopNav } from './TopNav/TopNav';
 
 
 
-export const Header: React.FC = () => {
-  // const session = await auth()
+
+
+export const Header: React.FC = async () => {
+
+  
+
   return (
 
     <header id="auth" className={styles.header}>

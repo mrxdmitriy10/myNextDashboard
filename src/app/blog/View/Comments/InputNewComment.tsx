@@ -1,5 +1,7 @@
-import UseSessionReturn from "@/types/useSessionReturn";
+
+
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 import { useState } from "react";
 
@@ -9,13 +11,11 @@ export type newcomment_data = {
   username: "string";
 };
 type Props = {
-  session: UseSessionReturn;
   post_id: number;
   fetch_comments: () => Promise<void>;
 };
 
 export const InputNewComment: React.FC<Props> = ({
-  session,
   post_id,
   fetch_comments,
 }) => {
@@ -23,6 +23,7 @@ export const InputNewComment: React.FC<Props> = ({
   const [validate, setValidate] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean | "error" | "final">(false); //Так нужнр делать везде
 
+  const session = useSession().data
   const onSubmit = () => {
     if (!session) return;
     if (textinput.length < 10) return;
@@ -33,7 +34,7 @@ export const InputNewComment: React.FC<Props> = ({
         await axios.post(`/api/blog/${post_id}/comments/`, {
           post_id: post_id,
           text: textinput,
-          username: session.data?.user?.name,
+          username: session.user?.name,
         });
         fetch_comments();
       } catch (error) {
@@ -53,7 +54,7 @@ export const InputNewComment: React.FC<Props> = ({
     if (validate) setValidate(!validate);
   }
 
-  return session.data?.user ? (
+  return session?.user ? (
     <form
       className="grid grid-cols-6"
       id="newcomment"
@@ -66,7 +67,7 @@ export const InputNewComment: React.FC<Props> = ({
           autoComplete="off"
           placeholder={
             session
-              ? `${session.data?.user?.name}, что думаешь на этот счет ?`
+              ? `${session.user?.name}, что думаешь на этот счет ?`
               : `Чтобы оставить комментарий необходимо автоизваться`
           }
           name="input"

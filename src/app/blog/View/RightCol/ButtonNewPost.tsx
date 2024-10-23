@@ -1,6 +1,6 @@
 "use client";
 
-import { Props } from "@/app/blog/View/RightCol/RightCol";
+
 
 import { useNewPost, usePublishNewPost } from "@/store/blog/new.store";
 

@@ -1,28 +1,10 @@
 import iPostBlog from "@/types/iPostBlog";
-import axios from "axios";
+
 
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-export type IdelStore = {
-  delState: boolean;
-  setdelState: (delState: boolean) => void;
-  delID: number | null;
-  setdelID: (value: number | null) => void;
-  isOpenModal: boolean;
-  setOpenModal: (bool: boolean) => void;
-};
 
-export const usedelStore = create<IdelStore>()(
-  devtools((set) => ({
-    delID: null,
-    setdelID: (value) => set({ delID: value }),
-    isOpenModal: false,
-    setOpenModal: (bool) => set({ isOpenModal: bool }),
-    delState: false,
-    setdelState: (value) => set({ delState: value }),
-  }))
-);
 
 export type IpostsStore = {
   error: unknown;
@@ -74,11 +56,11 @@ export interface usesinglePostType {
   title?: string;
   post?: iPostBlog;
   setData: (postid: number) => void;
-  likeIncrement: (postid: number) => void;
+  // likeIncrement: (postid: number) => void;
   setShortData: (postid: number) => void;
 }
 export const usesinglePost = create<usesinglePostType>()(
-  devtools((set, get) => ({
+  devtools((set) => ({
     id: undefined,
     likes: undefined,
     date: undefined,
@@ -87,7 +69,10 @@ export const usesinglePost = create<usesinglePostType>()(
     title: undefined,
     post: undefined,
     setShortData: async (postid: number) => {
-      const data = await fetch(`/api/blog/${postid}/shortdata`);
+      const data = await fetch(`/api/blog/${postid}/shortdata`, {
+        cache: 'no-store'
+        
+      });
       const res: { autor: string; date: string | Date; likes: number } =
         await data.json();
       set({ autor: res.autor, date: res.date, likes: res.likes });
@@ -103,12 +88,12 @@ export const usesinglePost = create<usesinglePostType>()(
       });
     },
 
-    likeIncrement: async (postid) => {
-      if (get().likes != undefined) {
-        await axios.patch(`/api/blog/${postid}`);
-        get().setShortData(postid);
-        // set((state) => ({ likes: (state.likes as number) + 1 }));
-      }
-    },
+    // likeIncrement: async (postid) => {
+    //   if (get().likes != undefined) {
+    //     await axios.patch(`/api/blog/${postid}`);
+    //     get().setShortData(postid);
+    //     // set((state) => ({ likes: (state.likes as number) + 1 }));
+    //   }
+    // },
   }))
 );

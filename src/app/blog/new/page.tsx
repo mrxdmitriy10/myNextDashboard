@@ -4,11 +4,11 @@ import { Editor } from "primereact/editor";
 import { Button } from "primereact/button";
 
 import { FormEvent } from "react";
-import View from "../View/View";
+import View from "../../components/Blog/View/View";
 
 
 import { isAdmin } from "@/lib/isAdmin";
-import { variant, useNewPost } from "../../../store/blog/new.store";
+import { variant, useNewPost } from "../../../store/blog/newPost.store";
 import { useSession } from "next-auth/react";
 
 

@@ -9,7 +9,7 @@ import { PurpleButton } from './Button/PurpleButton';
 
 export const TopNav: React.FC = () => {
 
-   
+
     return ( 
         <nav className={styles.topnav}>
           

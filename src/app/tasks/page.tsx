@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Tasks from "./Tasks";
+import Tasks from "../components/Tasks/Tasks";
 
 
 

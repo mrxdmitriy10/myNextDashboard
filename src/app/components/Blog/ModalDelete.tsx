@@ -1,7 +1,8 @@
 'use client'
 
 
-import { usedelStore, usepostsStore } from '@/store/blog/blog.store'
+import { usepostsStore } from '@/store/blog/blog.store'
+import { usedelStore } from '@/store/blog/delPost.store'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'

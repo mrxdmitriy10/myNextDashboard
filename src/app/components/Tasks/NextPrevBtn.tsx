@@ -1,6 +1,7 @@
 
-import iNxtPrv from "../../types/iNxtPrv";
+
 import Btn from "./Btn";
+import iNxtPrv from '../../../types/iNxtPrv';
 
 
 

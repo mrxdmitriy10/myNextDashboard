@@ -1,5 +1,6 @@
+import iNxtPrv from '../../../types/iNxtPrv';
 
-import iNxtPrv from "../../types/iNxtPrv";
+
 
 
 export const Btn:React.FC<iNxtPrv> = ({visiblenxt, visibleprv, nextHandleEvent, prevHandleEvent}) => {

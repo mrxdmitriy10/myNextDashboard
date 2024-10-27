@@ -1,7 +1,10 @@
 import date_time from "@/lib/formatDate";
-import axios from "axios";
-import { useEffect, useState } from "react";
+
+import { useEffect } from "react";
 import InputNewComment from "./InputNewComment";
+import { useCommentsStore } from "@/store/blog/comments.store";
+
+
 
 
 type comment = {
@@ -16,39 +19,30 @@ type Props = {
 };
 
 export const CommentsBlock = ({ post_id }: Props) => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [data, setData] = useState<comment[]>([]);
+const commentsStore = useCommentsStore()
 
-  const fetch_comments = async () => {
-    try {
-      const res: { data: comment[] } = await axios.get(
-        `/api/blog/${post_id}/comments`
-      );
-      setData(res.data);
-    } catch (error) {
-      console.log("Ошибка при загрузке коммента" + error);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+
 
   useEffect(() => {
-    fetch_comments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    commentsStore.fetch(post_id)
+
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <InputNewComment
         post_id={post_id}
-        fetch_comments={fetch_comments}
+
       />
-      {loading ? (
+      {commentsStore.loading ? (
         <>Загрузка комментариев</>
-      ) : !data.length ? (
+      ) : !commentsStore.data.length ? (
         <p>Комментариев нет, будь первым</p>
       ) : (
-        data.map((i: comment) => {
+        commentsStore.data.map((i: comment) => {
           return (
             <div key={i.id} className="w-full grid gap-1">
               <span className="font-sans  text-white w-full bg-purple-500 flex flex-nowrap justify-between">

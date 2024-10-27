@@ -7,8 +7,8 @@ import Link from "next/link";
 import iPostBlog from "@/types/iPostBlog";
 import ClampLines from "react-clamp-lines";
 
-import { usedelStore } from "@/store/blog/blog.store";
 import Image from "next/image";
+import { usedelStore } from "@/store/blog/delPost.store";
 
 type Props = {
   post: iPostBlog;
@@ -16,19 +16,17 @@ type Props = {
 export const Card: React.FC<Props> = ({ post }): JSX.Element => {
   const delStore = usedelStore();
 
-  const delPost = async (id: number) => {
-    delStore.setdelID(id);
-    delStore.setOpenModal(true);
-  };
-
   const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (!post.id) return;
     if (delStore.delState) {
       e.preventDefault();
-      delPost(post.id);
+
+      delStore.setdelID(post.id);
+      delStore.setOpenModal(true);
       delStore.setdelState(false);
     }
   };
+  console.log(post);
 
   return (
     <div
@@ -40,11 +38,12 @@ export const Card: React.FC<Props> = ({ post }): JSX.Element => {
         {/* <PostImg /> */}
 
         <div
-          className="flex flex-col justify-between w-auto 
-        lg:max-w-80 min-h-40 lg:min-h-52
+          className="inline-flex flex-col justify-between 
+        lg:w-80 min-h-40 lg:min-h-52
         pl-2 overflow-hidden"
         >
-          <div className="flex justify-between justify-items-center">
+          {/* cat + id */}
+          <div className="">
             <p
               className="w-full antialiased text-xs font-mono
                             font-light text-inherit mb-2 
@@ -79,7 +78,9 @@ export const Card: React.FC<Props> = ({ post }): JSX.Element => {
             id={"content"}
             text={post.content}
           />
-          <div className="flex justify-between">
+
+          {/* read and likes */}
+          <div className="flex justify-between gap-8 items-end text-lg ">
             <p
               className={
                 "text-blue-600 text-sm antialiased transition-all opacity-0 group-hover:opacity-100"
@@ -87,10 +88,26 @@ export const Card: React.FC<Props> = ({ post }): JSX.Element => {
             >
               Читать продолжение
             </p>
-            <span className="flex gap-2 font-light text-sm">
-              <Image alt="like" src="Like_Star.svg" width={15} height={15} />
-              <div> {post.likes}</div>
-            </span>
+            <div className="flex gap-2">
+              <span className="flex gap-2 font-light ">
+                <Image
+                  alt="Количество комментариев"
+                  src="comm_qwe.svg"
+                  width={30}
+                  height={30}
+                />
+                <div> {post._count.BlogComments} </div>
+              </span>
+              <span className="flex gap-2 font-light">
+                <Image
+                  alt="Колличество лайков"
+                  src="like_new.svg"
+                  width={30}
+                  height={30}
+                />
+                <div> {post.likes}</div>
+              </span>
+            </div>
           </div>
         </div>
       </Link>

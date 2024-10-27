@@ -1,9 +1,11 @@
 
+import { usenewCommentStore } from "@/store/blog/newComment.store";
 
-import axios from "axios";
 import { useSession } from "next-auth/react";
+import { FormEvent } from "react";
 
-import { useState } from "react";
+
+
 
 export type newcomment_data = {
   post_id: Props["post_id"];
@@ -12,53 +14,33 @@ export type newcomment_data = {
 };
 type Props = {
   post_id: number;
-  fetch_comments: () => Promise<void>;
+
 };
 
 export const InputNewComment: React.FC<Props> = ({
   post_id,
-  fetch_comments,
+
 }) => {
-  const [textinput, setTextInput] = useState<string>("");
-  const [validate, setValidate] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean | "error" | "final">(false); //Так нужнр делать везде
+  const newCommentStore = usenewCommentStore();
 
-  const session = useSession().data
-  const onSubmit = () => {
+
+
+  const session = useSession().data;
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!session) return;
-    if (textinput.length < 10) return;
+    newCommentStore.fetch(post_id, session);
 
-    const fetch_addcomment = async () => {
-      try {
-        setLoading(true);
-        await axios.post(`/api/blog/${post_id}/comments/`, {
-          post_id: post_id,
-          text: textinput,
-          username: session.user?.name,
-        });
-        fetch_comments();
-      } catch (error) {
-        setLoading("error");
-        console.log(error);
-      } finally {
-        setLoading("final");
-        setTextInput("");
-      }
-    };
-    fetch_addcomment();
+
+
+ 
   };
-
-  if (textinput.length > 5) {
-    if (!validate) setValidate(!validate);
-  } else {
-    if (validate) setValidate(!validate);
-  }
 
   return session?.user ? (
     <form
       className="grid grid-cols-6"
       id="newcomment"
-      action={onSubmit}
+      onSubmit={onSubmit}
       method="post"
     >
       <label className="col-span-5">
@@ -77,8 +59,8 @@ export const InputNewComment: React.FC<Props> = ({
           disabled={!session && true}
           spellCheck={false}
           wrap="hard"
-          value={textinput}
-          onChange={(e) => setTextInput(e.target.value)}
+          value={newCommentStore.text}
+          onChange={(e) => newCommentStore.setText(e.target.value)}
           className="w-full h-full p-5 resize-none"
         />
       </label>
@@ -87,14 +69,17 @@ export const InputNewComment: React.FC<Props> = ({
           "col span-1 border h-full w-full text-sm font-sans bg-pink-700 text-white disabled:bg-slate-400"
         }
         disabled={
-          !validate || loading == "final" || loading == true || !session
+          !newCommentStore.validate ||
+          newCommentStore.final ||
+          newCommentStore.loading ||
+          !session
             ? true
             : false
         }
       >
-        {loading == true ? (
+        {newCommentStore.loading ? (
           <>загрузка</>
-        ) : loading == "final" ? (
+        ) : newCommentStore.final ? (
           <>Отправлено</>
         ) : (
           <>Написать</>

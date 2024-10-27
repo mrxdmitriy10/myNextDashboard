@@ -8,6 +8,7 @@ import { Header } from "@/app/components/Header/Header";
 
 
 import { SessionProvider } from "next-auth/react";
+import { TopNav } from "./components/Header/TopNav/TopNav";
 
 
 
@@ -53,7 +54,11 @@ export default function RootLayout({
         <SessionProvider>
 
         <Header />
+        <TopNav />
+
+
           <section className={styles.content}>
+
             {children}
           </section>
 

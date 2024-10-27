@@ -4,7 +4,7 @@ import ButtonNewPost from "./ButtonNewPost";
 
 import date_time from "@/lib/formatDate";
 import { LikeComponent } from "./LikeComponent";
-import { usepostsStore, usesinglePost } from "@/store/blog/blog.store";
+import { usesinglePost } from "@/store/blog/blog.store";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useParams } from "next/navigation";
@@ -18,7 +18,10 @@ const RightCol: React.FC<Props> = ({ isNewPost, autor }) => {
   const postShortData = usesinglePost();
   const id = Number(useParams().id);
   useEffect(() => {
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     !isNewPost && postShortData.setShortData(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

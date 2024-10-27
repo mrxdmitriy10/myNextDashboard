@@ -91,6 +91,7 @@ model BlogPosts {
   autor        String
   date         DateTime       @default(now())
   likes        Int            @default(0)
+
   BlogComments BlogComments[]
 }
 

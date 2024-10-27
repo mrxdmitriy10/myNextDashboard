@@ -1,5 +1,5 @@
 import React from "react";
-import View from "../View/View";
+import View from "@/app/components/Blog/View/View";
 
 import { notFound } from "next/navigation";
 
@@ -9,10 +9,10 @@ import iPostBlog from "@/types/iPostBlog";
 
 
 async function fetchPost(id: string) {
-  console.log('fetchw');
+
   
   const res = await fetch(`${process.env.API_BASE_URL}/api/blog/${id}`, {
-  cache: 'no-store'
+  cache: 'force-cache'
   });
   
   return res.json() as Promise<iPostBlog>;

@@ -1,25 +1,26 @@
 "use client";
 import Link from "next/link";
-import { Card } from "./Card";
+import { Card } from "../components/Blog/Card";
 
-import FilterMenu from "./FilterMenu";
+import FilterMenu from "../components/Blog/FilterMenu";
 import { isAdmin } from "@/lib/isAdmin";
 
-import { ModalDelete } from "./ModalDelete";
-import { usedelStore, usepostsStore } from "@/store/blog/blog.store";
+import { usepostsStore } from "@/store/blog/blog.store";
 import { useSession } from "next-auth/react";
 
 import { useEffect } from "react";
-
+import { usedelStore } from "@/store/blog/delPost.store";
+import { ModalDelete } from "../components/Blog/ModalDelete";
 
 const Page: React.FC = () => {
-
   const session = useSession().data;
   const delStore = usedelStore();
   const postsStore = usepostsStore();
+
   useEffect(() => {
     postsStore.fetch();
-  }, [postsStore]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const delDuplCat = () => {
     const mapcategories = postsStore.all.map((i) => {
@@ -33,10 +34,10 @@ const Page: React.FC = () => {
 
   return (
     <div className="grid gap-5 lg:px-5">
-      <div className="w-96 font-serif text-gray-400 text-right m-auto mr-0 -mt-20">
-      &quot;Но когда живое существо обретает знание, свет этого знания рассеивает
-        тьму неведения и открывает ему истинную природу вещей, подобно тому как
-        солнце, поднимаясь над горизонтом, озаряет все вокруг.
+      <div className="w-96 font-serif text-gray-400 text-right m-auto mr-0 -mt-10 sm:-mt-20 z-20">
+        &quot;Но когда живое существо обретает знание, свет этого знания
+        рассеивает тьму неведения и открывает ему истинную природу вещей,
+        подобно тому как солнце, поднимаясь над горизонтом, озаряет все вокруг.
         &quot;
       </div>
       <ModalDelete />
@@ -63,26 +64,27 @@ const Page: React.FC = () => {
         </div>
       )}
 
-      <div className="flex gap-x-3 text-sm justify-end items-center">
+      <div className="flex gap-x-3 text-sm justify-end p-5 sticky top-0 z-10">
         <FilterMenu data={categories} />
       </div>
-
-      <div className="flex gap-4 flex-wrap justify-center 2xl:justify-stretch ">
-        {postsStore.error ? (
-          <>Ошибка загрузки постов {postsStore.error}</>
-        ) : postsStore.loading ? (
-          <>Загрузка постов</>
-        ) : !postsStore.all.length ? (
-          <>Блог пуст</>
-        ) : (
-          postsStore.all.map((i) => {
-            if (
-              i.category == postsStore.selectCategory ||
-              !postsStore.selectCategory
-            )
-              return <Card key={i.id} post={i} />;
-          })
-        )}
+      <div className="flex ju">
+        <div className="inline-flex gap-6 flex-wrap justify-center m-auto">
+          {postsStore.error ? (
+            <>Ошибка загрузки постов {postsStore.error}</>
+          ) : postsStore.loading ? (
+            <>Загрузка постов</>
+          ) : !postsStore.all.length ? (
+            <>Блог пуст</>
+          ) : (
+            postsStore.all.map((i) => {
+              if (
+                i.category == postsStore.selectCategory ||
+                !postsStore.selectCategory
+              )
+                return <Card key={i.id} post={i} />;
+            })
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { newcomment_data } from "@/app/blog/View/Comments/InputNewComment";
+import { newcomment_data } from "@/app/components/Blog/View/Comments/InputNewComment";
 import prisma from "@/prisma";
 
 import { NextResponse } from "next/server";
@@ -23,11 +23,18 @@ export async function GET(
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     const data: newcomment_data = await req.json();
     const res = await prisma.blogComments.create({
-      data: { post_id: data.post_id, comment: data.text, autor: data.username },
+      data: {
+        post_id: Number(params.id),
+        comment: data.text,
+        autor: data.username,
+      },
     });
 
     return NextResponse.json(res);

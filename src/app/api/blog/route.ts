@@ -9,12 +9,33 @@ const delay = (ms: number) => {
 
 export async function GET() {
   try {
-    const res = (await prisma.blogPosts.findMany({
-      orderBy: { id: "desc" },
-    })) as iPostBlog[];
-    const trimmedContent = res.map((i) => ({
-      ...i,
-      content: i.content.replace(/(<([^>]+)>)/gi, "").slice(0, 250),
+    const posts = (await prisma.blogPosts.findMany({
+      select: {
+        id: true,
+        content: true,
+        title: true,
+        autor: true,
+        category: true,
+        likes: true,
+        // Остальные поля поста
+        _count: {
+          select: {
+            BlogComments: true, // Подсчитываем количество комментариев
+          },
+        },
+      },
+      orderBy: { id: 'desc' },
+    }))
+    
+
+    const blogPostIds = posts.map(post => post.id);
+
+
+    // 5. Преобразуем посты и добавляем количество комментариев
+    const trimmedContent = posts.map((post) => ({
+      ...post,
+      content: post.content.replace(/<([^>]+)>/gi, "").slice(0, 250),
+
     }));
 
 
@@ -31,6 +52,8 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const data: iPostBlog = await req.json();
+    console.log('sss' + data);
+    
     const res = await prisma.blogPosts.create({
       data: {
         title: data.title,

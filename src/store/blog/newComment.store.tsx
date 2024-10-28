@@ -16,6 +16,10 @@ type newCommentStore = {
   fetch: (postid: number, session: Session) => void;
 };
 
+
+
+
+
 export const usenewCommentStore = create<newCommentStore>()(
   devtools((set, get) => ({
     text: "",
@@ -40,7 +44,7 @@ export const usenewCommentStore = create<newCommentStore>()(
         set({ loading: true });
         await axios.post(`/api/blog/${postid}/comments/`, {
           text: get().text,
-          username: session.user?.name,
+          autor_id: session.user?.id,
         });
         set({ final: true });
         useCommentsStore.getState().fetch(postid, true);

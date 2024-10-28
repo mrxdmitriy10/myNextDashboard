@@ -7,11 +7,7 @@ import { FormEvent } from "react";
 
 
 
-export type newcomment_data = {
-  post_id: Props["post_id"];
-  text: string;
-  username: "string";
-};
+
 type Props = {
   post_id: number;
 

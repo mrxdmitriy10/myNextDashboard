@@ -19,9 +19,10 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
-  provider      String
   role      String @default("user")
 
+
+  BlogComments BlogComments[]
 }
 
  
@@ -97,9 +98,11 @@ model BlogPosts {
 
 model BlogComments {
   id        Int       @id @unique @default(autoincrement())
-  autor     String
+  author_id     String
   comment   String
   post_id   Int
   date      DateTime  @default(now())
   r_post_id BlogPosts @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  author          User      @relation(fields: [author_id], references: [id])
+
 }

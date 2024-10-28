@@ -2,17 +2,18 @@ import axios from "axios";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-type comment = {
+export type commentType = {
   id: number;
-  autor: string;
+  autor_id: string;
   comment: string;
   date: string;
+  author: { name: string };
 };
 
 type comentsStoreType = {
   loading: boolean;
   error: unknown;
-  data: comment[];
+  data: commentType[];
 
   fetch: (postid: number, reload?: boolean) => void;
 };
@@ -26,16 +27,15 @@ export const useCommentsStore = create<comentsStoreType>()(
       fetch: async (postid, reload) => {
         try {
           if (!reload) set({ loading: true });
-          const res: { data: comment[] } = await axios.get(
+          const res: { data: commentType[] } = await axios.get(
             `/api/blog/${postid}/comments`
           );
-          set(({ data: res.data }));
+          set({ data: res.data });
         } catch (error) {
           set({ error });
           console.log("error fetch comments " + error);
         } finally {
           if (!reload) set({ loading: false });
-
         }
       },
     };

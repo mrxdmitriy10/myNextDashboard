@@ -1,4 +1,3 @@
-import { newcomment_data } from "@/app/components/Blog/View/Comments/InputNewComment";
 import prisma from "@/prisma";
 
 import { NextResponse } from "next/server";
@@ -11,8 +10,16 @@ export async function GET(
     const res = await prisma.blogComments.findMany({
       where: { post_id: Number(params.id) },
       orderBy: { id: "desc" },
+      include: {
+        author: {
+          select: {
+            name: true, // Получаем только поле username
+          },
+        },
+      },
     });
-
+    console.log("comment", res);
+    
     return NextResponse.json(res);
   } catch (error) {
     console.error(`Error fetching comment post: ${params.id}`, error);
@@ -22,6 +29,12 @@ export async function GET(
     );
   }
 }
+
+export type newcomment_data = {
+  post_id: number;
+  text: string;
+  autor_id: string;
+};
 
 export async function POST(
   req: Request,
@@ -33,7 +46,7 @@ export async function POST(
       data: {
         post_id: Number(params.id),
         comment: data.text,
-        autor: data.username,
+        author_id: data.autor_id,
       },
     });
 

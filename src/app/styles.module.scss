@@ -8,5 +8,5 @@
 }
 
 .content {
-    @apply  m-0 sm:m-5 p-5 sm:p-10 bg-gray-50 text-ellipsis relative
+    @apply  m-0 sm:m-5 p-5 sm:p-10 bg-gradient-to-b from-gray-50 to-slate-50 text-ellipsis relative
 }

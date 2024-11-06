@@ -8,24 +8,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
- 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  telegram_id   String?   @unique
-  telegram_username String? @unique
-  image         String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  role      String @default("user")
-
+  id                String    @id @default(cuid())
+  name              String?
+  telegram_id       String?   @unique
+  telegram_username String?   @unique
+  image             String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  accounts          Account[]
+  sessions          Session[]
+  role              String    @default("user")
 
   BlogComments BlogComments[]
 }
 
- 
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -39,33 +36,24 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@unique([provider, providerAccountId])
 }
- 
+
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
- 
-
-
-
-
-
-
-
-
 
 model CatTasks {
   name  String  @id @unique
@@ -84,25 +72,46 @@ model Tasks {
 }
 
 model BlogPosts {
-  id           Int            @id @unique @default(autoincrement())
-  img          String?
-  title       String
-  category     String
-  content      String
-  autor        String
-  date         DateTime       @default(now())
-  likes        Int            @default(0)
+  id       Int      @id @unique @default(autoincrement())
+  img      String?
+  title    String
+  category String
+  content  String
+  autor    String
+  date     DateTime @default(now())
+  likes    Like[]
 
   BlogComments BlogComments[]
 }
 
 model BlogComments {
   id        Int       @id @unique @default(autoincrement())
-  author_id     String
+  author_id String
   comment   String
   post_id   Int
   date      DateTime  @default(now())
   r_post_id BlogPosts @relation(fields: [post_id], references: [id], onDelete: Cascade)
-  author          User      @relation(fields: [author_id], references: [id])
+  author    User      @relation(fields: [author_id], references: [id])
+}
 
+model Like {
+  id          Int        @id @default(autoincrement())
+  postId      Int
+  ipAddress   String
+  createdAt   DateTime   @default(now())
+  BlogPosts   BlogPosts? @relation(fields: [postId], references: [id])
+
+
+  
+
+  @@unique([postId, ipAddress]) // Уникальность лайка для комбинации поста и пользователя}
+
+}
+
+
+
+model portfolioStack {
+  name          String        @id
+  descr         String        
+  category      String
 }

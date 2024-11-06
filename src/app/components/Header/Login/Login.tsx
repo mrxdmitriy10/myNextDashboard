@@ -4,10 +4,11 @@ import SignOutBtn from "./signOutBtn";
 import { useState } from "react";
 
 
-import { signInt_func } from "@/lib/SignIn";
+import { signIn_telegram } from "@/lib/SignIn_Telegram";
 import { LoginButton } from "@telegram-auth/react";
 
 import { useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 
 const Login = ({ children }: { children: React.ReactNode }) => {
@@ -21,13 +22,14 @@ const Login = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {!session?.user && (
-        <div className={`flex gap-3 ${!visibleAuthMethod && "hidden"}`}>
-          <div>GitHub</div>
+        <div className={`flex gap-3 text-black  ${!visibleAuthMethod && "hidden"}`}>
+          <div className="hover:text-blue-600 transition-all" onClick={async ()=>await signIn('github')}>GitHub</div>
+          <div className="hover:text-blue-600 transition-all" onClick={async ()=>await signIn('google')}>Google</div>
           <div>
             <LoginButton
               buttonSize="medium"
               botUsername={"aaa_o00oxzdbot"}
-              onAuthCallback={signInt_func}
+              onAuthCallback={signIn_telegram}
               lang="ru"
               showAvatar={false}
             />

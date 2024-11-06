@@ -2,7 +2,7 @@ import { TelegramAuthData } from "@telegram-auth/react";
 import { signIn, SignInResponse } from "next-auth/react";
 
 
-export const signInt_func = async (data: TelegramAuthData) => {
+export const signIn_telegram = async (data: TelegramAuthData) => {
 
     const res:SignInResponse | undefined = await signIn('credentials', {
         redirect: false,

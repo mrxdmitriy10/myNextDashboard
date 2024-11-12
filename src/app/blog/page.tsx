@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { usedelStore } from "@/store/blog/delPost.store";
 import { ModalDelete } from "../components/Blog/ModalDelete";
 
+
 const Page: React.FC = () => {
   const session = useSession().data;
   const delStore = usedelStore();
@@ -65,9 +66,11 @@ const Page: React.FC = () => {
       )}
 
       <div className="flex gap-x-3 text-sm justify-end p-5 sticky top-0 z-10">
+
+
         <FilterMenu data={categories} />
       </div>
-      <div className="flex ju">
+      <div className="flex">
         <div className="inline-flex gap-6 flex-wrap justify-center m-auto">
           {postsStore.error ? (
             <>Ошибка загрузки постов {postsStore.error}</>

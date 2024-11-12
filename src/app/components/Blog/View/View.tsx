@@ -8,7 +8,7 @@ import iPostBlog from "@/types/iPostBlog";
 
 import { CommentsBlock } from "./Comments/CommentsBlock";
 
-import { usesinglePost } from "@/store/blog/blog.store";
+
 import { useEffect } from "react";
 
 
@@ -18,19 +18,18 @@ type Props = {
 };
 
 const View: React.FC<Props> = ({ post, isNewPost }) => {
-  const setDataPost = usesinglePost((state) => state.setData);
+  // const setDataPost = usesinglePost((state) => state.setData);
 
   useEffect(() => {
-
-
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    post.id&&setDataPost(post.id)
-  }, [post.id, setDataPost]);
-
+    // !isNewPost&&post.id&&setDataPost(post.id)
+  }, []);
+  console.log(post);
+  
   return (
     <main className="text-slate-700 grid grid-cols-10 gap-8 sm:gap-4 xl:p-10">
       <div className="col-span-10 lg:col-span-8 grid gap-5">
-        <div className="font-light text-2xl p-2 sm:p-8 bg-purple-200 text-purple-500">
+        <div className="font-light text-2xl p-2 sm:p-8 text-purple-500 border-orange-500 border-b-2">
           {post.title}
         </div>
         <div className="w-full font-light text-justify sm:p-8 p-2">
@@ -44,7 +43,7 @@ const View: React.FC<Props> = ({ post, isNewPost }) => {
         />
       </div>
       {!isNewPost && (
-        <div className="col-span-10 border p-2 sm:p-8 grid gap-7">
+        <div className="col-span-10 border grid gap-7 p-7 sm:p-18">
           <CommentsBlock post_id={post.id as number} />
         </div>
       )}

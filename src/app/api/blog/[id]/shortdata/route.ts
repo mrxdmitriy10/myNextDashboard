@@ -6,14 +6,19 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-
-
     const res = await prisma.blogPosts.findUnique({
       where: { id: Number(params.id) },
-      select: {date: true, autor: true, likes: true}
+      select: {
+        date: true,
+        autor: true,
+        _count: {
+          select: {
+            likes: true, // Подсчитываем количество комментариев
+          },
+        },
+      },
     });
-    console.log(res);
-    
+
     return NextResponse.json(res);
   } catch (error) {
     console.error(`Error fetching shortdata post: ${params.id}`, error);
@@ -23,5 +28,3 @@ export async function GET(
     );
   }
 }
-
-

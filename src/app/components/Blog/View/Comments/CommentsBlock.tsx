@@ -39,16 +39,16 @@ const commentsStore = useCommentsStore()
       ) : (
         commentsStore.data.map((i:commentType) => {
           return (
-            <div key={i.id} className="w-full grid gap-1">
-              <span className="font-sans  text-white w-full bg-purple-500 flex flex-nowrap justify-between">
+            <div key={i.id} className="w-full grid gap-1 ">
+              <span className="font-sans  text-orange-600 w-full border-b-2 border-purple-500 flex flex-nowrap justify-start">
                 <span className="my-auto px-2 sm:px-5 font-semibold">
                   {i.author.name}
                 </span>
-                <span className="my-auto px-2 sm:px-10 font-light">
+                <span className="my-auto text-sm font-light text-purple-800">
                   {date_time(i.date).date}
                 </span>
               </span>
-              <p className="m-5 flow-root ">{i.comment}</p>
+              <p className="m-2 flow-root text-purple-900">{i.comment}</p>
             </div>
           );
         })

@@ -16,20 +16,18 @@ export async function GET() {
         title: true,
         autor: true,
         category: true,
-        likes: true,
         // Остальные поля поста
         _count: {
           select: {
             BlogComments: true, // Подсчитываем количество комментариев
+            likes: true, // Подсчитываем количество комментариев
+
           },
         },
       },
       orderBy: { id: 'desc' },
     }))
     
-
-    const blogPostIds = posts.map(post => post.id);
-
 
     // 5. Преобразуем посты и добавляем количество комментариев
     const trimmedContent = posts.map((post) => ({
@@ -52,7 +50,6 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const data: iPostBlog = await req.json();
-    console.log('sss' + data);
     
     const res = await prisma.blogPosts.create({
       data: {

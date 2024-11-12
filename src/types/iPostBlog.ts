@@ -7,8 +7,9 @@ type iPostBlog = {
   autor: string;
   date?: string | Date;
   likes?: number;
-  _count: {
+  _count?: {
     BlogComments: number; // Подсчитываем количество комментариев
+    likes: number
   };
 };
 export default iPostBlog;

@@ -15,23 +15,25 @@ export type Props = {
 };
 
 const RightCol: React.FC<Props> = ({ isNewPost, autor }) => {
+  // const data = isNewPost?useNewPost((state)=>(state.autor, state.date, state.)):usesinglePost();
   const postShortData = usesinglePost();
+
+  // const data = isNewPost? postShortData : postData
   const id = Number(useParams().id);
   useEffect(() => {
-
+    console.log(isNewPost);
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    !isNewPost && postShortData.setShortData(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    !isNewPost && postShortData.setShortDataFetch(id);
   }, []);
 
   return (
     <div className="gap-10 flex text-right flex-col ">
-      {!isNewPost && <LikeComponent countLikes={postShortData?.likes} />}
+      {!isNewPost && <LikeComponent count={postShortData.likes} />}
       <div className="flex flex-col gap-1">
         <div className="underline text-sm font-mono">Автор: </div>
         <div>
-          {postShortData.autor ? (
-            postShortData.autor.includes("@") ? (
+          {!isNewPost ? (
+            postShortData.autor?.includes("@") ? (
               <Link
                 className="hover:underline text-blue-500"
                 href={`https://t.me/${postShortData.autor.slice(1)}`}
@@ -46,8 +48,10 @@ const RightCol: React.FC<Props> = ({ isNewPost, autor }) => {
           )}
         </div>
       </div>
-      {postShortData.date && (
-        <div className="text-sm font-semibold">{date_time(postShortData.date as string).date}</div>
+      {!isNewPost && postShortData.date && (
+        <div className="text-sm font-semibold">
+          {date_time(postShortData.date as string).date}
+        </div>
       )}
 
       {isNewPost && <ButtonNewPost />}

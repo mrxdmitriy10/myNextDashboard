@@ -1,16 +1,15 @@
 import iPostBlog from "@/types/iPostBlog";
 
-
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-
-
 
 export type IpostsStore = {
   error: unknown;
   loading: boolean;
   all: iPostBlog[] | [];
   selectCategory: string | null;
+  view: "cards" | "list";
+  setView: (view: IpostsStore["view"]) => void;
 
   setSelectCategory: (value: string | null) => void;
   fetch: () => void;
@@ -18,6 +17,8 @@ export type IpostsStore = {
 
 export const usepostsStore = create<IpostsStore>()(
   devtools((set) => ({
+    view: "cards",
+    setView: (value) => set({ view: value }),
     all: [],
     selectCategory: null,
     setSelectCategory: (value) => set({ selectCategory: value }),
@@ -57,7 +58,7 @@ export interface usesinglePostType {
   post?: iPostBlog;
   setData: (postid: number) => void;
   // likeIncrement: (postid: number) => void;
-  setShortData: (postid: number) => void;
+  setShortDataFetch: (postid: number) => void;
 }
 export const usesinglePost = create<usesinglePostType>()(
   devtools((set) => ({
@@ -68,14 +69,20 @@ export const usesinglePost = create<usesinglePostType>()(
     content: undefined,
     title: undefined,
     post: undefined,
-    setShortData: async (postid: number) => {
+    setShortDataFetch: async (postid: number) => {
       const data = await fetch(`/api/blog/${postid}/shortdata`, {
-        cache: 'no-store'
-        
+        cache: "no-store",
       });
-      const res: { autor: string; date: string | Date; likes: number } =
-        await data.json();
-      set({ autor: res.autor, date: res.date, likes: res.likes });
+      const res: {
+        autor: string;
+        date: string | Date;
+        _count: {
+          likes: number;
+        };
+      } = await data.json();
+      console.log(res);
+
+      set({ autor: res.autor, date: res.date, likes: res._count.likes });
     },
     setData: (postid) => {
       usepostsStore.getState().all.forEach((i: iPostBlog) => {
@@ -87,13 +94,5 @@ export const usesinglePost = create<usesinglePostType>()(
           }));
       });
     },
-
-    // likeIncrement: async (postid) => {
-    //   if (get().likes != undefined) {
-    //     await axios.patch(`/api/blog/${postid}`);
-    //     get().setShortData(postid);
-    //     // set((state) => ({ likes: (state.likes as number) + 1 }));
-    //   }
-    // },
   }))
 );

@@ -1,41 +1,65 @@
-'use client'
-
-
-
+"use client";
 
 import { usesinglePost } from "@/store/blog/blog.store";
-import { useLikesStore } from "@/store/blog/like.store";
+import useLikesStore from "@/store/blog/like.store";
+
 
 import Image from "next/image";
 
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-
-export const LikeComponent = ({ countLikes }: { countLikes?: number }) => {
+export const LikeComponent = ({ count }: { count?: number }) => {
   const id = Number(useParams().id);
-  const toogleLike = useLikesStore((state) => state.toggleLike);
-  const setShortData = usesinglePost((state) => state.setShortData);
-
-//TODO: Сделать так чтобы можно было поставить только один лайк
-
-
-
+  const likesStore = useLikesStore();
+  const [sizeLike, setSizeLike] = useState<number>(35);
+  const updateDataPost = usesinglePost(
+    ({ setShortDataFetch }) => setShortDataFetch
+  );
   const onClick = async () => {
-    try {
-      toogleLike(id)
-      setShortData(id)
+    if (!likesStore.likes.includes(id)) {
+      try {
+        await likesStore.toggleLike(id, "ip");
+        updateDataPost(id);
 
-    } catch(error) {
-      console.log('ERR: toogle like' + error);
+      } catch (error) {
+        console.log("ERR: toogle like" + error);
+      }
+    } else {
+      try {
+        likesStore.removeLike(id, "ip");
+        updateDataPost(id);
+
+      } catch (error) {
+        console.log("ERR: remove like" + error);
+      }
     }
   };
+  useEffect(() => {
+    console.log('uef');
+    likesStore.getAllLikesUser('ip')
+    
+    
+  }, []);
 
   return (
-    <span className="flex gap-2 font-light text-4xl justify-end items-end">
-      <button onClick={onClick}>
-        <Image alt="like" src="/like_new.svg" width={50} height={50} />
+    <span className="flex gap-3 font-light text-4xl justify-end items-center">
+      <div>{count}</div>
+
+      <button
+        onClick={onClick}
+        className={`transition-all hover:opacity-100 ${!likesStore.likes.includes(id) && "opacity-50"}`}
+      >
+        <Image
+          className="transition-all"
+          alt="like"
+          src="/like_new.svg"
+          onMouseEnter={() => setSizeLike(40)}
+          onMouseLeave={() => setSizeLike(35)}
+          width={sizeLike}
+          height={sizeLike}
+        />
       </button>
-      <div> {countLikes}</div>
     </span>
   );
 };

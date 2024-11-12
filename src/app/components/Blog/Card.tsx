@@ -96,7 +96,7 @@ export const Card: React.FC<Props> = ({ post }): JSX.Element => {
                   width={30}
                   height={30}
                 />
-                <div> {post._count.BlogComments} </div>
+                <div> {post._count?.BlogComments} </div>
               </span>
               <span className="flex gap-2 font-light">
                 <Image
@@ -105,7 +105,7 @@ export const Card: React.FC<Props> = ({ post }): JSX.Element => {
                   width={30}
                   height={30}
                 />
-                <div> {post.likes}</div>
+                <div> {post._count?.likes}</div>
               </span>
             </div>
           </div>

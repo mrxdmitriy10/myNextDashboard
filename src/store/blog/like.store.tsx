@@ -1,44 +1,77 @@
-import axios from "axios";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-
-interface LikesStore {
+import { immer } from "zustand/middleware/immer";
+interface LikesStoreType {
   likes: number[];
-  toggleLike: (postId: number) => void;
+  toggleLike: (postId: number, ipAddress: string) => Promise<void>;
+  removeLike: (postId: number, ipAddress: string) => Promise<void>;
+  getAllLikesUser: (ipAddress: string) => Promise<void>;
 }
 
-export const useLikesStore = create<LikesStore>()(
-  devtools((set, get) => {
-    const likesFromStorage = JSON.parse(localStorage.getItem("likes") || "[]")
 
-    console.log("Likes from storage:", likesFromStorage);
 
-    return {
-      likes: likesFromStorage,
-      toggleLike: async (postId) => {
-        let newLikes = [...likesFromStorage];
 
-        if (get().likes.includes(postId)) {
-          try {
-            await axios.patch(`/api/blog/${postId}`, { type: "decrement" });
-            newLikes = newLikes.filter((i) => i !== postId);
-          } catch (error) {
-            console.error("Error decrementing like:", error);
-          }
-        } else {
-          try {
-            await axios.patch(`/api/blog/${postId}`, { type: "increment" });
-            newLikes.push(postId);
-          } catch (error) {
-            console.error("Error incrementing like:", error);
-          }
+
+const useLikesStore = create<LikesStoreType>()(
+  devtools(
+    immer((set) => ({
+      likes: [],
+      getAllLikesUser: async (ipAddress) => {
+        const res = await fetch(`/api/blog/alllikes`, {
+          cache: 'no-store',
+
+          method: "POST",
+          body: JSON.stringify({ ipAddress }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data: [{ ipAddress: string; postId: number }] = await res.json();
+        if (data) {
+          set({ likes: data.map((i) => i.postId) });
         }
-
-        localStorage.setItem("likes", JSON.stringify(newLikes));
-
-        console.log("Updated likes:", newLikes);
-        set({ likes: newLikes });
       },
-    };
-  })
+
+
+      
+
+
+
+      toggleLike: async (postId, ipAddress) => {
+        
+
+
+        const res = await fetch(`/api/blog/${postId}/like`, {
+          cache: 'no-store',
+
+          method: "POST",
+          body: JSON.stringify({ ipAddress }),
+        });
+        if (res.ok) {
+          set((state) => {
+            state.likes.push(postId);
+
+
+          });
+        }
+      },
+      removeLike: async (postId, ipAddress) => {
+        const res = await fetch(`/api/blog/${postId}/like`, {
+          cache: 'no-store',
+          method: "DELETE",
+          body: JSON.stringify({ ipAddress }),
+        });
+
+        console.log(await res.json());
+
+        if (res.ok) {
+          console.log("delete");
+
+          set((state) => ({ likes: state.likes.filter((n) => n !== postId) }));
+
+        }
+      },
+    }))
+  )
 );
+export default useLikesStore;

@@ -36,10 +36,11 @@ export const LikeComponent = ({ count }: { count?: number }) => {
     }
   };
   useEffect(() => {
-    console.log('uef');
+
     likesStore.getAllLikesUser('ip')
     
     
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

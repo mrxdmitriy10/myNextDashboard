@@ -1,17 +1,20 @@
 'use client'
+
+import { iOnsubmit } from "@/types/iEvent";
 import { ChangeEvent, useState } from "react";
-import iSubmit from "@/types/iSubmit";
-import { iOnsubmit } from "../../types/iEvent";
+
+
 
 
 
 interface propTypes {
-    submit: iSubmit
+    submit: (e: iOnsubmit, text_task: string) => Promise<void>
 }
 
 
 export const Input:React.FC<propTypes>=({submit}) => {
     const [value, setValue] = useState('')
+
 
     
     const onSubmit = (e:iOnsubmit) => {

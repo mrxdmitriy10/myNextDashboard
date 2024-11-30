@@ -1,5 +1,5 @@
 import prisma from "@/prisma";
-import requestIp from 'request-ip'
+
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -47,7 +47,7 @@ export async function DELETE(
   const { ipAddress }: { ipAddress: string } = await request.json();
 
   try {
-    const del = await prisma.like.deleteMany({
+    await prisma.like.deleteMany({
       where: {
         postId: Number(params.id),
         ipAddress: ipAddress,

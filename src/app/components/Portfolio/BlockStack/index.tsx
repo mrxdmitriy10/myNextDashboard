@@ -10,6 +10,12 @@ import { animated, useInView, useSpring } from "react-spring";
 
 
 
+/**
+ * Компонент BlockStack отображает анимированный блок стеков категорий.
+ * При монтировании вызывает fetchData из usestackBlockStore для загрузки данных стека.
+ * Использует react-spring для анимации видимости элементов на основе inView.
+ * Отображает уникальные категории и соответствующие элементы через CategoryStack.
+ */
 export const BlockStack = () => {
 
   const [ref, inView] = useInView({ once: true });
@@ -17,6 +23,7 @@ export const BlockStack = () => {
   const stackBlockStore = usestackBlockStore();
   useEffect(() => {
     stackBlockStore.fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const animstyle = useSpring({

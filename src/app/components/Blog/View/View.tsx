@@ -18,7 +18,11 @@ type Props = {
 };
 
 const View: React.FC<Props> = ({ post, isNewPost }) => {
-  // const setDataPost = usesinglePost((state) => state.setData);
+
+
+
+
+
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions

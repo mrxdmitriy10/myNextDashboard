@@ -24,6 +24,7 @@ const RightCol: React.FC<Props> = ({ isNewPost, autor }) => {
     console.log(isNewPost);
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     !isNewPost && postShortData.setShortDataFetch(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

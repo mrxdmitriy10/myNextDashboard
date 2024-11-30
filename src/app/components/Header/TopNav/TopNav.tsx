@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import styles from "./styles.module.scss";
 import { PurpleButton } from "./Button/PurpleButton";
-import Login from "../Login/Login";
+
 
 export const TopNav: React.FC = () => {
   return (
